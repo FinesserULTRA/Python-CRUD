@@ -3,13 +3,13 @@ from mysql.connector import errorcode
 
 
 class CrudDB:
-    __instance = None
-    __host = None
-    __user = None
-    __password = None
-    __database = None
-    __session = None
-    __connection = None
+    # __instance = None
+    # __host = None
+    # __user = None
+    # __password = None
+    # __database = None
+    # __session = None
+    # __connection = None
 
     def __init__(self, host='localhost', user='root', password='', database='crud_db'):
         self.__host = host
