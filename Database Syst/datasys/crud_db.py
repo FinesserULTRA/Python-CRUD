@@ -16,7 +16,8 @@ class CrudDB:
     def connection(self):
 
         try:
-            cnx = mysql.connector.connect(host='127.0.0.1', user='root', database='crud_db')
+            cnx = mysql.connector.connect(host=self.__host, user=self.__user, password=self.__password,
+                                          database=self.__database)
             self.__connection = cnx
             self.__session = cnx.cursor()
 
@@ -36,7 +37,7 @@ class CrudDB:
         self.__connection.close()
         print("Session Closed")
 
-    def Database_add(self, query):
+    def database_add(self, query):
         # self.connection()
         if self.__connection.is_connected():
             self.__session.execute(query)
@@ -44,36 +45,30 @@ class CrudDB:
             # self.__close()
             print("record inserted.")
 
-
     def update_rec(self, query):
         if self.__connection.is_connected():
             self.__session.execute(query)
             self.__connection.commit()
 
-        # Obtain rows affected
-        update_rows = self.__session.rowcount
-        # self.close()
-        print("Record Updated")
+            # Obtain rows affected
+            update_rows = self.__session.rowcount
+            print("Record Updated")
 
-        return update_rows
+            return update_rows
 
     def delete(self, query):
         if self.__connection.is_connected():
             self.__session.execute(query)
             self.__connection.commit()
 
-        # Obtain rows affected
-        # self.__close()
-        print("Deleted Record")
+            # self.__close()
+            print("Deleted Record")
 
     def view(self, query):
-        # self.connection()
 
-        # if self.__connection.is_connected():
         if self.__connection.is_connected():
             self.__session.execute(query)
-            # self.__connection.commit()
-            # self.__connection.commit()
+
             data = self.__session.fetchall()
 
             print("All Records are shown: ")
@@ -81,16 +76,15 @@ class CrudDB:
                 print(f"Emp_ID: {i[0]}, Name: {i[1]}, Age: {i[2]}, Contact:{i[3]}, Dept_ID: {i[4]}")
 
             self.__connection.commit()
-            # self.__close()
 
-    # def view_one(self,query):
-    #     self.__session.execute(query)
+    # def view_one(self, query):
+    #     if self.__connection.is_connected():
+    #         self.__session.execute(query)
     #
-    #     data = self.__session.fetchall()
-    #     for i in data:
-    #         if i == 0:
-    #             print(f"Record of {i[0]} is shown: ")
-    #         print(f"Emp_ID: {i[0]}, Name: {i[1]}, Age: {i[2]}, Contact:{i[3]}, Dept_ID: {i[4]}")
-
-    # self.__connection.commit()
-    # self.__close()
+    #         data = self.__session.fetchone()
+    #         while data is not None:
+    #             print(data)
+    #         # for i in data:
+    #         #     print(f"Emp_ID: {i[0]}, Name: {i[1]}, Age: {i[2]}, Contact:{i[3]}, Dept_ID: {i[4]}")
+    #
+    #         self.__connection.commit()
