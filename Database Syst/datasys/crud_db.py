@@ -31,17 +31,19 @@ class CrudDB:
         else:
             print("Database Connection Successful")
 
-    def __close(self):
+    def close(self):
         self.__session.close()
         self.__connection.close()
+        print("Session Closed")
 
     def Database_add(self, query):
         # self.connection()
         if self.__connection.is_connected():
             self.__session.execute(query)
             self.__connection.commit()
-        self.__close()
-        print("record inserted.")
+            # self.__close()
+            print("record inserted.")
+
 
     def update_rec(self, query):
         if self.__connection.is_connected():
@@ -50,7 +52,7 @@ class CrudDB:
 
         # Obtain rows affected
         update_rows = self.__session.rowcount
-        self.__close()
+        # self.close()
         print("Record Updated")
 
         return update_rows
@@ -61,7 +63,7 @@ class CrudDB:
             self.__connection.commit()
 
         # Obtain rows affected
-        self.__close()
+        # self.__close()
         print("Deleted Record")
 
     def view(self, query):
@@ -79,7 +81,7 @@ class CrudDB:
                 print(f"Emp_ID: {i[0]}, Name: {i[1]}, Age: {i[2]}, Contact:{i[3]}, Dept_ID: {i[4]}")
 
             self.__connection.commit()
-            self.__close()
+            # self.__close()
 
     # def view_one(self,query):
     #     self.__session.execute(query)

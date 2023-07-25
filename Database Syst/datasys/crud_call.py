@@ -8,28 +8,15 @@ class CrudCall:
         self.__cobj.connection()
         print("Ready To perform Functions")
 
+    def __del__(self):
+        self.__cobj.close()
+
     def connect(self):
         self.__cobj.connection()
 
     def insert(self, *args, **kwargs):
-        query = "INSERT INTO %s (" % self.table
-        keys = kwargs.keys()
-        values = tuple(kwargs.values())
-        l = len(keys) - 1
+        query = f"INSERT INTO `employee` (`Name`,`Age`,`Contact`,`Dept_ID`) VALUES {tuple(args)}"
 
-        for i, key in enumerate(keys):
-            query += key + ""
-            if i < l:
-                query += ","
-        # query = query % args
-        query += ")\nVALUE ("
-        for i, key in enumerate(keys):
-            query += "%s"
-            if i < l:
-                query += ","
-        query += ")"
-        query = query % values
-        # print(query)
         self.__cobj.Database_add(query)
 
     def update_rec(self, where=None, *args, **kwargs):
@@ -52,12 +39,12 @@ class CrudCall:
         # self.__cobj.update_rec(query)
 
     def delete(self, where=None, *args):
-        query = "DELETE FROM %s " % self.table
-        query += "WHERE %s" % where
-        query += " = %s" % args
-        # print(query)
-
-        self.__cobj.delete(query)
+        # query = "DELETE FROM %s " % self.table
+        # query += "WHERE %s" % where
+        # query += " = %s" % args
+        q1 = f"DELETE FROM {self.table} WHERE {where}"
+        print(q1)
+        # self.__cobj.delete(query)
 
     def view(self, cond,*args, **kwargs):
         # try:
