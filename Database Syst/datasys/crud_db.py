@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector import errorcode
+import csv
 
 
 class CrudDB:
@@ -12,6 +13,24 @@ class CrudDB:
         self.__instance = None
         self.__connection = None
         self.__session = None
+
+    def check_table(self, table):
+        if self.__connection.is_connected():
+            query = "SHOW TABLES"
+            self.__session.execute(query)
+
+            data = self.__session.fetchall()
+
+            print('All existing tables:', data)  # Returned as a list of tuples
+
+            results_list = [item[0] for item in data]  # Conversion to list of str
+
+            if table in results_list:
+                print(table, 'table was found!')
+                return True
+            else:
+                print(table, 'table was NOT found!')
+                return False
 
     def connection(self):
 
@@ -88,3 +107,9 @@ class CrudDB:
     #         #     print(f"Emp_ID: {i[0]}, Name: {i[1]}, Age: {i[2]}, Contact:{i[3]}, Dept_ID: {i[4]}")
     #
     #         self.__connection.commit()
+
+    def create_table(self, query):
+        if self.__connection.is_connected():
+            self.__session.execute(query)
+            self.__connection.commit()
+            print("Table Created.")
